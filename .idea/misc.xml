@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="FLOW" />
+  </component>
+  <component name="ReactNativePackager" arguments="--web" nodePath="project" reactNativePackagePath="$PROJECT_DIR$/IdleGame/node_modules/react-native" workingDirectory="$PROJECT_DIR$">
+    <scripts>
+      <item value="expo" />
+      <item value="start" />
+    </scripts>
+  </component>
+</project>
