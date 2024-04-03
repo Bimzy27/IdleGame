@@ -1,8 +1,7 @@
-
-import { View } from 'react-native';
 import React from 'react';
-import GameView from "./components/GameView";
 import {CoreView} from "./styles/Styles";
+import GameView from "./components/GameView";
+
 export default function App() {
   return (
       <CoreView>

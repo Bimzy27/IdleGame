@@ -1,7 +1,7 @@
 import { View} from "react-native";
 import styled from "styled-components";
 
-export const StyledTabView = styled(View)`
+export const StyledTabView = styled.div`
     position: absolute;
     top: 0;
     left: 0;

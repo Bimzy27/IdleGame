@@ -1,10 +1,12 @@
-import {Text, View} from "react-native";
+import {View} from "react-native";
+import React from "react";
+import {CoreText} from "../styles/Styles";
 
 const InventoryView = () => {
     return (
         <View>
-            <Text>Currency</Text>
-            <Text>Inventory</Text>
+            <CoreText>Currency</CoreText>
+            <CoreText>Inventory</CoreText>
         </View>
     );
 };

@@ -8,12 +8,35 @@ export function getLevel(skill: Skill): number {
     let level:number = 0;
     let exp:number = 0;
 
-    while (exp < skill.exp || level >= levelExpRequirements.length)
+    while (exp <= skill.exp && level < levelExpRequirements.length)
     {
         level++;
         exp += levelExpRequirements[level];
     }
-    return ;
+    return level;
+}
+
+export function getMaxLevel(skill: Skill): number {
+        return levelExpRequirements.length;
+}
+
+export function getReqLevelXp(skill: Skill): number {
+    let level = getLevel(skill);
+    if (level < levelExpRequirements.length)
+        return levelExpRequirements[level];
+    return -1;
+}
+
+export function getCurLevelXp(skill: Skill): number {
+        let level:number = 1;
+        let exp:number = skill.exp;
+
+        while (exp >= levelExpRequirements[level - 1] && level < levelExpRequirements.length)
+        {
+                exp -= levelExpRequirements[level - 1];
+                level++;
+        }
+        return exp;
 }
 
 const levelExpRequirements: number[] =
@@ -116,7 +139,7 @@ const levelExpRequirements: number[] =
         913019,
         1008052,
         1112977,
-        1228825,
+        1228825,/*
         1356729,
         1497949,
         1653867,
@@ -137,5 +160,5 @@ const levelExpRequirements: number[] =
         7303988,
         8064254,
         8903655,
-        9830430
+        9830430*/
     ];
