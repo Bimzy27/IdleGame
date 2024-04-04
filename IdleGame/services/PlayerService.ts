@@ -22,8 +22,8 @@ export class PlayerService {
             this.playerData = {
                 name: 'Player Name',
                 skills: {
+                    Range: { name: 'Range', exp: 0 },
                     Woodcutting: { name: 'Woodcutting', exp: 0 },
-                    Range: { name: 'Range', exp: 0 }
                 },
             };
         }

@@ -1,11 +1,11 @@
 import React from 'react';
-import {CoreView} from "./styles/Styles";
 import GameView from "./components/GameView";
+import {View, Image} from "react-native";
 
 export default function App() {
   return (
-      <CoreView>
+      <View>
           <GameView/>
-      </CoreView>
+      </View>
   );
 }
