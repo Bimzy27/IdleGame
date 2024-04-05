@@ -5,7 +5,7 @@ import {Image} from "react-native";
 const HeaderView = () => {
     return (
         <StyledHeaderView>
-            <Image source={require('../assets/icon.png')} style={{width: 50, height: 50}} />
+            <Image source={require('../assets/icon.png')} style={{width: 150, height: "100%", resizeMode: 'contain'}} />
         </StyledHeaderView>
     );
 };

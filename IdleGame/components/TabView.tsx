@@ -1,8 +1,8 @@
-import {playerService} from "../services/PlayerService";
 import React from "react";
 import {CoreButton, CoreText} from "../styles/Styles";
 import {StyledTabButtonView, StyledTabView} from "../styles/TabStyles";
 import {Image, View, TouchableOpacity} from "react-native";
+import {saveService} from "../services/SaveService";
 
 const TabView = ({ activeView, setActiveView }) => {
     const handleButtonClick = (viewName) => {
@@ -14,9 +14,10 @@ const TabView = ({ activeView, setActiveView }) => {
             <CoreText>Idle Scape - {activeView}</CoreText>
             <TabButton viewName={'Profile'} iconPath={'profile'} setActiveView={setActiveView}/>
             <TabButton viewName={'Inventory'} iconPath={'inventory'} setActiveView={setActiveView}/>
-            <CoreButton onClick={() => playerService.deletePlayerData()}>Delete</CoreButton>
+            <CoreButton onClick={() => saveService.Save()}>Save</CoreButton>
+            <CoreButton onClick={() => saveService.Delete()}>Delete</CoreButton>
             <CoreText>Skills</CoreText>
-            <TabButton viewName={'Range'} iconPath={'skills/range'} setActiveView={setActiveView}/>
+            <TabButton viewName={'Ranged'} iconPath={'skills/ranged'} setActiveView={setActiveView}/>
             <TabButton viewName={'Woodcutting'} iconPath={'skills/woodcutting'} setActiveView={setActiveView}/>
         </StyledTabView>
     );

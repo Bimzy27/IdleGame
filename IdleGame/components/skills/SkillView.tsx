@@ -11,7 +11,7 @@ export const useSkillExp = (skillName) => {
     );
 
     useEffect(() => {
-        return playerService.subscribe(skillName, (exp) => {
+        return playerService.subscribeOnSkillChanged(skillName, (exp) => {
             setSkillExp(exp);
         });
     }, [skillName]);
@@ -23,7 +23,12 @@ export const useSkillExp = (skillName) => {
     return { skillExp, handleAddExp };
 };
 
-export const SkillView = ({ skillName }) => {
+interface SkillViewProps {
+    skillName: string;
+    children?: React.ReactNode;
+}
+
+export const SkillView = ({ skillName, children }: SkillViewProps) => {
     const { handleAddExp } = useSkillExp(skillName);
     let skill = playerService.getPlayer().skills[skillName];
 
@@ -39,6 +44,7 @@ export const SkillView = ({ skillName }) => {
                 <CoreButton onClick={() => handleAddExp(100)}>Add 100 Exp</CoreButton>
                 <CoreButton onClick={() => handleAddExp(1000)}>Add 1000 Exp</CoreButton>
             </View>
+            {children}
         </View>
     );
 };

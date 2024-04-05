@@ -4,9 +4,9 @@ import {backgroundAltColor, primaryTrimColor, transparentColor} from "./Colors";
 export const StyledTabView = styled.div`
     position: absolute;
     left: 0;
-    top: 8vh;
+    top: 10vh;
     width: 10vw;
-    height: 92vh;
+    height: 90vh;
     background-color: ${backgroundAltColor};
     box-sizing: border-box;
     padding: 10px;

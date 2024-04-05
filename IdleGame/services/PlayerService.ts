@@ -1,92 +1,88 @@
 import {Player} from "../models/Player";
 
 export class PlayerService {
-    private playerData: Player;
-    private observers: { [key: string]: Function[] } = {};
+    private player: Player;
+    private skillChangedObservers: { [key: string]: Function[] } = {};
 
-    constructor() {
-        this.constructPlayer();
-    }
-
-    constructPlayer(): Player{
+    loadPlayer(): Player{
         const savedData = localStorage.getItem('playerData');
         if (savedData) {
             try {
-                this.playerData = JSON.parse(savedData);
+                this.player = JSON.parse(savedData);
             } catch (error) {
                 console.error('Error loading player data:', error);
                 // Handle potential errors during parsing
             }
         } else {
             // Initialize default player data if no saved data exists
-            this.playerData = {
+            this.player = {
                 name: 'Player Name',
                 skills: {
-                    Range: { name: 'Range', exp: 0 },
+                    Ranged: { name: 'Ranged', exp: 0 },
                     Woodcutting: { name: 'Woodcutting', exp: 0 },
-                },
+                }
             };
         }
-        return this.playerData;
+        return this.player;
     }
 
     getPlayer(): Player {
-        return { ...this.playerData };
+        return { ...this.player };
     }
 
     addSkillExp(skillName: string, exp: number): void {
-        if (!this.playerData.skills[skillName]) {
+        if (!this.player.skills[skillName]) {
             throw new Error(`Skill '${skillName}' not found`);
         }
 
-        this.playerData.skills[skillName].exp += exp;
-        this.savePlayerData();
+        this.player.skills[skillName].exp += exp;
+        this.savePlayer();
 
-        console.log(`Adding ${exp} to skill ${skillName} to total exp ${this.playerData.skills[skillName].exp}`);
+        console.log(`Adding ${exp} to skill ${skillName} to total exp ${this.player.skills[skillName].exp}`);
 
-        // Notify observers about the change
-        this.notifyObservers(skillName, this.playerData.skills[skillName].exp);
+        // Notify skillChangedObservers about the change
+        this.notifyObservers(skillName, this.player.skills[skillName].exp);
     }
 
-    savePlayerData(): void {
+    savePlayer(): void {
         // Choose your persistence method (e.g., localStorage)
-        localStorage.setItem('playerData', JSON.stringify(this.playerData));
+        localStorage.setItem('playerData', JSON.stringify(this.player));
     }
 
-    deletePlayerData(): void{
+    deletePlayer(): void{
         localStorage.removeItem('playerData');
-        this.constructPlayer();
+        this.loadPlayer();
         this.notifyAllObservers();
     }
 
-    subscribe(skillName: string, observer: Function): void {
-        if (!this.observers[skillName]) {
-            this.observers[skillName] = [];
+    subscribeOnSkillChanged(skillName: string, observer: Function): void {
+        if (!this.skillChangedObservers[skillName]) {
+            this.skillChangedObservers[skillName] = [];
         }
-        this.observers[skillName].push(observer);
+        this.skillChangedObservers[skillName].push(observer);
     }
 
-    unsubscribe(skillName: string, observer: Function): void {
-        if (this.observers[skillName]) {
-            const observerIndex = this.observers[skillName].indexOf(observer);
+    unsubscribeOnSkillChanged(skillName: string, observer: Function): void {
+        if (this.skillChangedObservers[skillName]) {
+            const observerIndex = this.skillChangedObservers[skillName].indexOf(observer);
             if (observerIndex > -1) {
-                this.observers[skillName].splice(observerIndex, 1);
+                this.skillChangedObservers[skillName].splice(observerIndex, 1);
             }
         }
     }
 
     private notifyObservers(skillName: string, exp: number): void {
-        if (this.observers[skillName]) {
-            this.observers[skillName].forEach((observer) => observer(exp));
+        if (this.skillChangedObservers[skillName]) {
+            this.skillChangedObservers[skillName].forEach((observer) => observer(exp));
         }
     }
 
     private notifyAllObservers(): void {
-        // Loop through all skill names in the observers collection
-        for (const skillName of Object.keys(this.observers)) {
-            if (this.observers[skillName]) {
+        // Loop through all skill names in the skillChangedObservers collection
+        for (const skillName of Object.keys(this.skillChangedObservers)) {
+            if (this.skillChangedObservers[skillName]) {
                 // Call each observer function with relevant data (optional in this case)
-                this.observers[skillName].forEach((observer) => observer(this.getPlayer().skills[skillName].exp)); // No arguments passed here
+                this.skillChangedObservers[skillName].forEach((observer) => observer(this.getPlayer().skills[skillName].exp)); // No arguments passed here
             }
         }
     }
